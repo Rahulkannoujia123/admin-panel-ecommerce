@@ -1,0 +1,198 @@
+/* General Styles */
+.products-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+.success-message {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Buttons */
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.add-product-button {
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.add-product-button:hover {
+  background-color: #218838;
+}
+
+.edit-button,
+.delete-button {
+  color: white;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button {
+  background-color: #ffc107;
+}
+
+.edit-button:hover {
+  background-color: #e0a800;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Table */
+.product-list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.product-list th,
+.product-list td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.product-list th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: 600;
+}
+
+.product-list td {
+  vertical-align: middle;
+  color: #555;
+}
+
+.product-list tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.product-list tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.3s ease;
+}
+
+/* Flexbox for Edit and Delete buttons */
+.product-actions {
+  display: flex;
+  justify-content: flex-start; /* Aligns buttons to the left */
+  gap: 15px; /* Adds space between the buttons */
+  align-items: center;
+}
+
+/* Form */
+.add-product-form {
+  background-color: #f9f9f9;
+  padding: 25px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 8px;
+  color: #333;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 12px 20px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Price Filter */
+.price-filter {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.price-filter input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 150px;
+  font-size: 14px;
+}
+
+/* Table image styling */
+.product-list img {
+  max-width: 80px;
+  height: auto;
+  border-radius: 5px;
+  object-fit: cover;
+}

@@ -1,0 +1,94 @@
+/* Basic table styling */
+.taxes-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .taxes-table th, .taxes-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .taxes-page .header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar {
+    padding: 5px;
+    width: 200px;
+  }
+  
+  .add-tax-btn {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .add-tax-btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Popup styles */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+  }
+  
+  .popup-content form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popup-content label {
+    margin: 10px 0 5px;
+  }
+  
+  .popup-content input {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-buttons button {
+    padding: 5px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .form-buttons button[type="button"] {
+    background-color: #f44336;
+  }
+  
+  .form-buttons button:hover {
+    background-color: #45a049;
+  }
+  
+  .form-buttons button[type="button"]:hover {
+    background-color: #e53935;
+  }
+  

@@ -1,0 +1,101 @@
+/* Ensure the entire app takes up full viewport height */
+.app-container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+  overflow: hidden; /* Prevent scrollbars from appearing on the app container */
+}
+
+/* Sidebar styling */
+.sidebar {
+  flex: 0 0 280px; /* Fixed width */
+  background-color: #333;
+  color: white;
+  padding: 15px; /* Reduced padding for compactness */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; /* Include padding in height calculations */
+  overflow-y: auto; /* Make sidebar scrollable if content overflows */
+  scrollbar-width: thin; /* Thin scrollbar for Firefox */
+}
+
+/* Scrollbar styling for WebKit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #555; /* Scrollbar thumb color */
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Hover effect for scrollbar */
+}
+
+/* Sidebar menu items */
+.sidebar-menu ul {
+  list-style-type: none; /* Remove bullet points */
+  padding-left: 0; /* Remove default padding */
+  margin: 0; /* Remove margin */
+}
+
+/* Sidebar list item styling */
+.sidebar-menu li {
+  margin: 15px 0; /* Reduced spacing for compactness */
+}
+
+/* Sidebar links */
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px; /* Reduced padding for compactness */
+  display: flex;
+  align-items: center; /* Align icons and text */
+  font-size: 16px; /* Slightly smaller font size */
+  transition: background-color 0.3s ease;
+  justify-content: flex-start; /* Align content to the left */
+}
+
+/* Hover effect for sidebar links */
+.sidebar a:hover {
+  background-color: #555555;
+  border-radius: 5px;
+}
+
+/* Sidebar icons */
+.sidebar-icon {
+  font-size: 22px; /* Reduced icon size */
+  margin-right: 15px; /* Reduced gap between icon and text */
+}
+
+/* Main content area */
+.main-content {
+  flex-grow: 1; /* Take the remaining width */
+  padding: 20px;
+  background-color: #f4f4f4; /* Background color for content */
+  overflow-y: auto; /* Ensure content is scrollable */
+  height: 100%; /* Match sidebar height */
+  box-sizing: border-box; /* Include padding in height calculations */
+}
+
+/* Sidebar submenu styling */
+.submenu {
+  list-style-type: none;
+  padding-left: 20px;
+  margin-top: 8px; /* Adjusted spacing for submenu */
+}
+
+.submenu li {
+  margin-bottom: 6px; /* Adjusted margin for compactness */
+}
+
+.submenu li a {
+  font-size: 14px; /* Smaller font for submenu items */
+}
+
+.submenu li a:hover {
+  background-color: #444;
+  padding-left: 10px; /* Compact hover effect */
+}
