@@ -1,0 +1,95 @@
+/* Container */
+.stock-report-container {
+    width: 90%;
+    margin: 20px auto;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  /* Title */
+  .stock-report-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Search Container */
+  .search-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+  }
+  
+  .search-input {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    width: 250px;
+  }
+  
+  /* Table */
+  .stock-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .stock-report-table th,
+  .stock-report-table td {
+    padding: 10px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .stock-report-table th {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .stock-report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .stock-report-table tr:hover {
+    background-color: #e6f7ff;
+  }
+  
+  .no-data {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+    padding: 20px;
+  }
+  
+  /* Pagination */
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-container button {
+    padding: 6px 12px;
+    margin: 0 5px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .pagination-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .pagination-container span {
+    font-size: 14px;
+    color: #333;
+  }
+  

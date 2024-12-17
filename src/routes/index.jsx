@@ -12,6 +12,7 @@ import NewsletterList from "../pages/newsletter/newsletter";
 import RefundOrderList from "../pages/refundorder/refundorder.jsx";
 import PromocodeList from "../pages/promocode/promocode.jsx";
 import UserRoleList from "../pages/userrole/userrole.jsx";
+import StockReportList from "../pages/stockreport/stockreport.jsx";
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const AppRoutes = () => {
             <Route path="/refundorder" element={<RefundOrderList />} />
             <Route path="/promocode" element={<PromocodeList />} />
             <Route path="/userrole" element={<UserRoleList />} />
+            <Route path="/stock report" element={<StockReportList />} />
            
           </Routes>
         </div>
