@@ -1,0 +1,144 @@
+/* User Role Table */
+.userrole-container {
+  padding: 15px;
+  width: 50%; /* Container width */
+  max-width: 600px; /* Maximum width for the table */
+  margin: 0; /* Removed auto margin to align it to the left */
+  position: absolute; /* To position it left */
+  left: 10; /* Align the container to the left */
+  top: 20px; /* Add top margin to give some space from the top */
+  height: 500px; /* Set fixed height for the container */
+  overflow-y: auto;
+  
+}
+
+.userrole-title {
+  
+  margin-bottom: 10px; /* Reduced margin */
+}
+
+.userrole-table {
+  width: 100%;
+  max-width: 600px; /* Reduce the table width */
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin: 0 auto; /* Center the table within the container */
+}
+
+.userrole-table th,
+.userrole-table td {
+  padding: 8px; /* Reduced padding in cells */
+  text-align: center;
+  word-wrap: break-word;
+  border: 1px solid #ddd;
+}
+
+.userrole-table th {
+  background-color: #f4f4f4;
+  font-size: 14px; /* Reduced font size for headers */
+}
+
+.userrole-table td {
+  font-size: 20px; /* Smaller font size for data cells */
+}
+
+.edit-button,
+.delete-button {
+  padding: 6px 12px; /* Smaller padding for buttons */
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px; /* Reduced font size for buttons */
+}
+
+.edit-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.no-data {
+  text-align: center;
+  padding: 10px;
+  color: #888;
+  font-size: 16px; /* Reduced font size for no data message */
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px; /* Reduced padding inside modal */
+  border-radius: 8px;
+  width: 400px; /* Smaller width for modal */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px; /* Reduced font size for close icon */
+  cursor: pointer;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px; /* Reduced margin */
+}
+
+.modal-buttons button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+/* User Role Add Button */
+.add-role-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.add-role-button:hover {
+  background-color: #45a049;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+}
+
+.modal-buttons button {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.modal-buttons button:hover {
+  background-color: #4CAF50;
+  color: white;
+}

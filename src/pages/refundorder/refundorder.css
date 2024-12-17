@@ -1,0 +1,61 @@
+/* refundOrder.css */
+.refund-order-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .refund-order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .refund-order-table th, .refund-order-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .refund-order-table th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .refund-order-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .status {
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  .status.refunded {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .status.pending {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .refund-button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .refund-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .no-data {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+  }
+  

@@ -36,11 +36,11 @@ const Sidebar = () => {
           <li><Link to="/newsletter"><FaNewspaper className="sidebar-icon" /> Newsletter</Link></li>
           <li><Link to="/notification"><FaBell className="sidebar-icon" /> Notification</Link></li>
           <li><Link to="/order"><FaShoppingCart className="sidebar-icon"/> Order</Link></li>
-          <li><Link to="/refund order"><FaUndo className="sidebar-icon" /> Refund order</Link></li>
+          <li><Link to="/refundorder"><FaUndo className="sidebar-icon" /> Refund order</Link></li>
           <li><Link to="/promocode"><FaTag className="sidebar-icon" /> Promo Code</Link></li>
           <li><Link to="/blog"><FaBlog className="sidebar-icon" /> Blog</Link></li>
           <li><Link to="/setting"><FaCogs className="sidebar-icon"/> Settings</Link></li>
-          <li><Link to="/userRole"><FaUserShield className="sidebar-icon"/> UserRoles</Link></li>
+          <li><Link to="/userrole"><FaUserShield className="sidebar-icon"/> UserRoles</Link></li>
           <li><Link to="/subadmin"><FaUserAlt className="sidebar-icon"/> Subadmin Users</Link></li>
         </ul>
       </nav>
