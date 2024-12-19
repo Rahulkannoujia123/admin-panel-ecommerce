@@ -7,13 +7,13 @@ const Customers = () => {
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [updatedFullName, setUpdatedFullName] = useState('');
   const [updatedEmail, setUpdatedEmail] = useState('');
   const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState('');
   const { customerId } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [selectedCustomers, setSelectedCustomers] = useState([]); // Define selectedCustomers state
 
   // Fetch customers data from the API
   useEffect(() => {
@@ -29,14 +29,17 @@ const Customers = () => {
         }
 
         if (customerId) {
-          const selectedCustomer = data.users.find(
-            (customer) => customer._id === customerId
-          );
-          setSelectedCustomer(selectedCustomer);
-          if (selectedCustomer) {
-            setUpdatedFullName(selectedCustomer.fullName);
-            setUpdatedEmail(selectedCustomer.email);
-            setUpdatedPhoneNumber(selectedCustomer.phoneNumber);
+          // Fetch customer details by userId
+          const customerDetailResponse = await fetch(`https://ecommerce-backend-eight-umber.vercel.app/user/get-user-detail?userId=${customerId}`);
+          const customerDetailData = await customerDetailResponse.json();
+
+          if (customerDetailData && customerDetailData.user) {
+            setSelectedCustomer(customerDetailData.user);
+            setUpdatedFullName(customerDetailData.user.fullName);
+            setUpdatedEmail(customerDetailData.user.email);
+            setUpdatedPhoneNumber(customerDetailData.user.phoneNumber);
+          } else {
+            console.error('Failed to fetch customer details');
           }
         }
       } catch (error) {
@@ -87,8 +90,6 @@ const Customers = () => {
       alert('Error updating customer.');
     }
   };
-  
-  
 
   const handleSearch = () => {
     const filtered = customers.filter(
@@ -116,10 +117,28 @@ const Customers = () => {
     setShowModal(true); // Open the modal when edit button is clicked
   };
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = async (id) => {
     if (window.confirm('Are you sure you want to delete this customer?')) {
-      setCustomers(customers.filter((customer) => customer._id !== id));
-      setFilteredCustomers(filteredCustomers.filter((customer) => customer._id !== id));
+      try {
+        const response = await fetch(`https://ecommerce-backend-eight-umber.vercel.app/user/delete-user?id=${id}`, {
+          method: 'DELETE', // Use DELETE method for deleting
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.message); // Show a success message
+
+          // Remove the deleted customer from the state
+          setCustomers(customers.filter((customer) => customer._id !== id));
+          setFilteredCustomers(filteredCustomers.filter((customer) => customer._id !== id));
+        } else {
+          const errorData = await response.json();
+          alert('Failed to delete customer: ' + errorData.message);
+        }
+      } catch (error) {
+        console.error('Error deleting customer:', error);
+        alert('Error deleting customer.');
+      }
     }
   };
 
@@ -249,29 +268,42 @@ const Customers = () => {
       {showModal && selectedCustomer && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2>Update Customer</h2>
-            <form onSubmit={handleUpdateSubmit} className="update-form">
-              <input
-                type="text"
-                value={updatedFullName}
-                onChange={(e) => setUpdatedFullName(e.target.value)}
-                placeholder="Full Name"
-              />
-              <input
-                type="email"
-                value={updatedEmail}
-                onChange={(e) => setUpdatedEmail(e.target.value)}
-                placeholder="Email"
-              />
-              <input
-                type="text"
-                value={updatedPhoneNumber}
-                onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
-                placeholder="Phone Number"
-              />
-              <button type="submit">Update</button>
-              <button type="button" onClick={() => setShowModal(false)}>
-                Close
+            <h2>Edit Customer</h2>
+            <form onSubmit={handleUpdateSubmit}>
+              <label>
+                Full Name:
+                <input
+                  type="text"
+                  value={updatedFullName}
+                  onChange={(e) => setUpdatedFullName(e.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                Email:
+                <input
+                  type="email"
+                  value={updatedEmail}
+                  onChange={(e) => setUpdatedEmail(e.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                Phone Number:
+                <input
+                  type="text"
+                  value={updatedPhoneNumber}
+                  onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
+                  required
+                />
+              </label>
+              <button type="submit" className="submit-button">Update</button>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="cancel-button"
+              >
+                Cancel
               </button>
             </form>
           </div>

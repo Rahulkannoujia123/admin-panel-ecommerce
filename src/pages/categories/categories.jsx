@@ -4,7 +4,6 @@ import "./categories.css";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState("");
   const [selectAll, setSelectAll] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -50,18 +49,48 @@ const Categories = () => {
         formDataToSend.append("image", formData.image);
       }
 
-      const response = await axios.post(
-        "https://ecommerce-backend-eight-umber.vercel.app/user/add-category",
-        formDataToSend
-      );
+      let response;
 
-      if (response.data.message === "Category added successfully") {
-        setCategories([...categories, response.data.category]); // Add new category
-        alert("Category added successfully!");
+      if (isEditMode && editingCategory) {
+        // Update category API
+        response = await axios.post(
+          `https://ecommerce-backend-eight-umber.vercel.app/user/update-category?id=${editingCategory._id}`,
+          formDataToSend
+        );
+      } else {
+        // Add category API
+        response = await axios.post(
+          "https://ecommerce-backend-eight-umber.vercel.app/user/add-category",
+          formDataToSend
+        );
+      }
+
+      if (
+        response.data.message === "Category added successfully" ||
+        response.data.message === "Category updated successfully"
+      ) {
+        alert(response.data.message);
+
+        if (isEditMode) {
+          setCategories(
+            categories.map((cat) =>
+              cat._id === editingCategory._id ? response.data.category : cat
+            )
+          );
+        } else {
+          setCategories([...categories, response.data.category]);
+        }
       }
     } catch (error) {
-      console.error("Error adding category:", error);
-      alert("Error adding category. Please try again.");
+      console.error(
+        isEditMode ? "Error updating category:" : "Error adding category:",
+        error
+      );
+      alert(
+        isEditMode
+          ? "Error updating category. Please try again."
+          : "Error adding category. Please try again."
+      );
     }
 
     setFormData({ categoryName: "", parentCategory: "", metaDescription: "", image: null });
@@ -70,9 +99,24 @@ const Categories = () => {
     setEditingCategory(null);
   };
 
-  const handleDeleteCategory = (categoryId) => {
+  const handleDeleteCategory = async (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
-      setCategories(categories.filter((cat) => cat._id !== categoryId));
+      try {
+        const response = await axios.delete(
+          `https://ecommerce-backend-eight-umber.vercel.app/user/delete-category?id=${categoryId}`
+        );
+
+        if (response.data.message === "Category deleted successfully") {
+          alert("Category deleted successfully.");
+          // Update the categories state by removing the deleted category
+          setCategories(categories.filter((cat) => cat._id !== categoryId));
+        } else {
+          alert(response.data.message || "Failed to delete category.");
+        }
+      } catch (error) {
+        console.error("Error deleting category:", error);
+        alert("An error occurred while deleting the category. Please try again.");
+      }
     }
   };
 
