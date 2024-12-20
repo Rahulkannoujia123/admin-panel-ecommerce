@@ -17,6 +17,7 @@ import Subadmin from "../pages/subadminuser/subadminuser.jsx";
 import OfferPage from "../pages/offer/offer.jsx";
 import Slider from "../pages/slider/slider.jsx";
 
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -25,6 +26,7 @@ const AppRoutes = () => {
         <Sidebar />
         {/* Main Content Area */}
         <div className="main-content">
+     
           <Routes>
            
             <Route path="/order" element={<Order />} />

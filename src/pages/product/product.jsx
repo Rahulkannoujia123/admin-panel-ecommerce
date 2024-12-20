@@ -26,6 +26,10 @@ const Products = () => {
         const response = await axios.get('https://ecommerce-backend-eight-umber.vercel.app/user/get-product');
         if (response.data.message === 'Products retrieved successfully') {
           setProducts(response.data.products);
+          const categoryNames = [
+            ...new Set(response.data.products.map(product => product.categoryId.name))
+          ];
+          setCategories(categoryNames);
         } else {
           console.error('Error fetching products:', response.data.message);
         }
@@ -179,7 +183,8 @@ const Products = () => {
                   ? `${product.description.substring(0, 100)}...`
                   : product.description}
               </td>
-              <td>{categories.find((cat) => cat._id === product.categoryId)?.name || 'Unknown'}</td>
+              <td>{product.categoryId?.name || 'Unknown'}</td>
+
               <td>{product.stock}</td>
               <td>
                 <button
@@ -190,7 +195,7 @@ const Products = () => {
                       name: product.name,
                       description: product.description,
                       price: product.price,
-                      categoryId: product.categoryId || '',
+                      categoryId: product.categoryId._id || '',
                       stock: product.stock,
                       image: null,
                     });
@@ -288,10 +293,10 @@ const Products = () => {
   );
 
   return (
-    <div>
-      {loading && <p>Loading...</p>}
-      {message && <p className="message">{message}</p>}
+    <div className="products-container">
+      {message && <p>{message}</p>}
       {formMode ? renderForm() : renderProductTable()}
+      {loading && <div className="loading">Loading...</div>}
     </div>
   );
 };
