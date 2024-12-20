@@ -26,10 +26,6 @@ const Products = () => {
         const response = await axios.get('https://ecommerce-backend-eight-umber.vercel.app/user/get-product');
         if (response.data.message === 'Products retrieved successfully') {
           setProducts(response.data.products);
-          const categoryNames = [
-            ...new Set(response.data.products.map(product => product.categoryId.name))
-          ];
-          setCategories(categoryNames);
         } else {
           console.error('Error fetching products:', response.data.message);
         }
@@ -41,14 +37,20 @@ const Products = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('https://ecommerce-backend-eight-umber.vercel.app/user/get-category');
+        console.log('API Response:', response); // Log the entire response
+    
         if (response.data.message === 'Categories fetched successfully.') {
+          // Check if data exists and is an array
+          console.log('Fetched Categories:', response.data.data);
           setCategories(response.data.data);
+        } else {
+          console.log('Error: Categories not fetched');
         }
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
-
+    
     fetchProducts();
     fetchCategories();
   }, []);
@@ -116,24 +118,26 @@ const Products = () => {
   };
 
   // Handle delete
-  const handleDelete = async (productId) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        const response = await axios.delete(
-          `https://ecommerce-backend-eight-umber.vercel.app/user/delete-product/${productId}`
-        );
+        const url = `https://ecommerce-backend-eight-umber.vercel.app/user/delete-product?id=${id}`;
+        console.log('API URL:', url); // Debug the URL
+  
+        const response = await axios.delete(url);
+  
         if (response.data.message === 'Product deleted successfully') {
-          setProducts((prev) => prev.filter((product) => product._id !== productId));
+          setProducts((prev) => prev.filter((product) => product._id !== id));
           setMessage(response.data.message);
         } else {
           setMessage('Failed to delete product.');
         }
       } catch (error) {
-        console.error('Error deleting product:', error);
+        console.error('Error deleting product:', error.response || error.message);
       }
     }
   };
-
+  
   // Filter products by price
   const filteredProducts = products.filter((product) => product.price >= priceFilter);
 
@@ -283,20 +287,16 @@ const Products = () => {
         <label htmlFor="image">Product Image</label>
         <input type="file" id="image" name="image" onChange={handleFileChange} />
       </div>
-      <button type="submit" className="submit-button">
-        {formMode === 'add' ? 'Add Product' : 'Update Product'}
+      <button type="submit" disabled={loading}>
+        {loading ? 'Saving...' : formMode === 'add' ? 'Add Product' : 'Update Product'}
       </button>
-      <button type="button" onClick={() => setFormMode('')} className="cancel-button">
-        Cancel
-      </button>
+      {message && <p className="message">{message}</p>}
     </form>
   );
 
   return (
-    <div className="products-container">
-      {message && <p>{message}</p>}
+    <div>
       {formMode ? renderForm() : renderProductTable()}
-      {loading && <div className="loading">Loading...</div>}
     </div>
   );
 };

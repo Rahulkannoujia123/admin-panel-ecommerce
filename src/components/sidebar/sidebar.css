@@ -99,3 +99,14 @@
   background-color: #444;
   padding-left: 10px; /* Compact hover effect */
 }
+.sidebar-logo {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.logo-image {
+  max-width: 100px; /* Adjust as needed */
+  max-height: 100px; /* Adjust as needed */
+  object-fit: contain;
+}

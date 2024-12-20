@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './sidebar.css';
 import { Link } from 'react-router-dom';
 import { FaTachometerAlt, FaUsers, FaBox, FaChartBar, FaNewspaper, FaBell, FaShoppingCart, FaUndo, FaTag, FaBlog, FaCogs, FaUserShield, FaUserAlt, FaDollarSign } from 'react-icons/fa';
+// import asset from '../assets/logo.jpg'
 
 const Sidebar = () => {
   // State to handle the submenu visibility
@@ -14,6 +15,10 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
+    {/* Replace the title with the logo */}
+    <div className="sidebar-logo">
+      
+    </div>
       <h2 className="sidebar-title">eCommerce Dashboard</h2>
       <nav className="sidebar-menu">
         <ul>
