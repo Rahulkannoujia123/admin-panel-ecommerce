@@ -14,6 +14,8 @@ import PromocodeList from "../pages/promocode/promocode.jsx";
 import UserRoleList from "../pages/userrole/userrole.jsx";
 import StockReportList from "../pages/stockreport/stockreport.jsx";
 import Subadmin from "../pages/subadminuser/subadminuser.jsx";
+import OfferPage from "../pages/offer/offer.jsx";
+import Slider from "../pages/slider/slider.jsx";
 
 const AppRoutes = () => {
   return (
@@ -38,6 +40,8 @@ const AppRoutes = () => {
             <Route path="/userrole" element={<UserRoleList />} />
             <Route path="/stock report" element={<StockReportList />} />
             <Route path="/subadmin" element={<Subadmin />} />
+            <Route path="/offer" element={<OfferPage />} />
+            <Route path="/slider" element={<Slider />} />
 
            
           </Routes>

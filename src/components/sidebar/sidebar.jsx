@@ -38,6 +38,8 @@ const Sidebar = () => {
           <li><Link to="/order"><FaShoppingCart className="sidebar-icon"/> Order</Link></li>
           <li><Link to="/refundorder"><FaUndo className="sidebar-icon" /> Refund order</Link></li>
           <li><Link to="/promocode"><FaTag className="sidebar-icon" /> Promo Code</Link></li>
+          <li><Link to="/offer"><FaTag className="sidebar-icon" /> Offer</Link></li>
+          <li><Link to="/slider"><FaTag className="sidebar-icon" /> Slider</Link></li>
           <li><Link to="/blog"><FaBlog className="sidebar-icon" /> Blog</Link></li>
           <li><Link to="/setting"><FaCogs className="sidebar-icon"/> Settings</Link></li>
           <li><Link to="/userrole"><FaUserShield className="sidebar-icon"/> UserRoles</Link></li>
