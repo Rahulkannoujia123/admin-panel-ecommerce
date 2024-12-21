@@ -19,7 +19,7 @@ const Sidebar = () => {
     <div className="sidebar-logo">
       
     </div>
-      <h2 className="sidebar-title">eCommerce Dashboard</h2>
+      <h2 className="sidebar-title">ECommerce Dashboard</h2>
       <nav className="sidebar-menu">
         <ul>
         <li><Link to="/dashboard"><FaTachometerAlt className="sidebar-icon" /> Dashboard</Link></li>

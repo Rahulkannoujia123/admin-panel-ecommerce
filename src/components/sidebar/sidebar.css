@@ -30,7 +30,7 @@
 /* Sidebar styling */
 .sidebar {
   flex: 0 0 280px; /* Fixed width */
-  background-color:rgb(35 159 88);
+  background-color:#2e502c;
   color: white;
   padding: 15px; /* Reduced padding for compactness */
   height: 100vh; /* Full viewport height */
