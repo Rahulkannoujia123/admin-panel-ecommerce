@@ -48,7 +48,7 @@ const Sidebar = () => {
           <li><Link to="/blog"><FaBlog className="sidebar-icon" /> Blog</Link></li>
           <li><Link to="/setting"><FaCogs className="sidebar-icon"/> Settings</Link></li>
           <li><Link to="/userrole"><FaUserShield className="sidebar-icon"/> UserRoles</Link></li>
-          <li><Link to="/subadmin"><FaUserAlt className="sidebar-icon"/> Subadmin Users</Link></li>
+          <li><Link to="/subadmin"><FaUserAlt className="sidebar-icon"/> SubadminUsers</Link></li>
         </ul>
       </nav>
     </div>

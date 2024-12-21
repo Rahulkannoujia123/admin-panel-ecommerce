@@ -5,11 +5,32 @@
   width: 100%;
   overflow: hidden; /* Prevent scrollbars from appearing on the app container */
 }
+/* App container layout */
+.app-container {
+  display: flex;
+  min-height: 100vh; /* Ensures the layout takes the full height of the screen */
+}
+
+.sidebar {
+  width: 250px; /* Adjust this width based on your sidebar's design */
+  background-color: #2c3e50; /* Example background color */
+  color: #fff; /* Sidebar text color */
+  position: fixed; /* Makes it stay fixed on the left side */
+  height: 100vh;
+  overflow-y: auto; /* Allows scrolling if content exceeds the viewport */
+}
+
+.main-content {
+  margin-left: 250px; /* Matches the sidebar width */
+  padding: 20px; /* Add some spacing for the content */
+  flex: 1;
+  background-color: #f9f9f9; /* Light background for the content area */
+}
 
 /* Sidebar styling */
 .sidebar {
   flex: 0 0 280px; /* Fixed width */
-  background-color:rgb(35 159 88);;
+  background-color:rgb(35 159 88);
   color: white;
   padding: 15px; /* Reduced padding for compactness */
   height: 100vh; /* Full viewport height */
