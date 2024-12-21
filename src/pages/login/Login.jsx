@@ -126,9 +126,7 @@ const Login = () => {
             />
           </div>
         </form>
-        <p className="signup_link">
-          Don't have an account yet? <Link to="/signup">Join Metronic</Link>
-        </p>
+       
         <button className="google_signin">
           <figure>
             <img src="https://img.icons8.com/color/1000/google-logo.png" alt="" />
