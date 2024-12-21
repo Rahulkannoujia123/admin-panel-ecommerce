@@ -94,9 +94,9 @@ const Login = () => {
               type="text"
               value={formData.email}
               onChange={(value) => handleInputChange("email", value)}
-              placeholder="Email or Phone Number"
+              placeholder="Email "
               icon={<Icons.TbMail />}
-              label="Email or Number"
+              label="Email "
             />
           </div>
           <div className="form_control">
