@@ -91,7 +91,7 @@
     border-radius: 5px;
     margin-top: 20px;
     cursor: pointer;
-    width: 100%; /* Ensure the button spans the full width of the form */
+    width: 78%; /* Ensure the button spans the full width of the form */
   }
   
   .google_signin img {

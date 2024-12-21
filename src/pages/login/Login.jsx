@@ -127,12 +127,7 @@ const Login = () => {
           </div>
         </form>
        
-        <button className="google_signin">
-          <figure>
-            <img src="https://img.icons8.com/color/1000/google-logo.png" alt="" />
-          </figure>
-          <h2>Sign in with Google</h2>
-        </button>
+       
       </div>
     </div>
   );
