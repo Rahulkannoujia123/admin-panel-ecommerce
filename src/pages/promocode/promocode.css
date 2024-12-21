@@ -1,187 +1,187 @@
 /* promocode.css */
 .promocode-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .promocode-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .promocode-table th, .promocode-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .promocode-table th {
-    background-color: #f4f4f4;
-    color: #333;
-  }
-  
-  .promocode-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .promocode-table tr:nth-child(odd) {
-    background-color: #ffffff;
-  }
-  
-  .promocode-table input[type="checkbox"] {
-    margin: 0;
-  }
-  
-  .status {
-    padding: 5px;
-    border-radius: 5px;
-  }
-  
-  .status.refunded {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .status.pending {
-    background-color: #ffc107;
-    color: white;
-  }
-  
-  .edit-button,
-  .delete-button {
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-right: 5px;
-  }
-  
-  .delete-button {
-    background-color: #dc3545;
-  }
-  
-  .edit-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .delete-button:hover {
-    background-color: #c82333;
-  }
-  
-  .no-data {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-  }
-  /* promocode.css */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
-/* Existing styles for the table and other components */
+.promocode-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.promocode-table th,
+.promocode-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.promocode-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.promocode-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.promocode-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.promocode-table input[type="checkbox"] {
+  margin: 0;
+}
+
+.status {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.status.refunded {
+  background-color: #28a745;
+  color: white;
+}
+
+.status.pending {
+  background-color: #ffc107;
+  color: white;
+}
+
+.edit-button,
+.delete-button {
+  padding: 12px 18px; /* Increased padding for larger buttons */
+  font-size: 25px; /* Larger font size for better readability */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px; /* Smoother, rounded corners */
+  margin-right: 5px;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
 
 /* Add Promocode Button */
 .add-promocode-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  .add-promocode-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Modal Styles */
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 400px;
-  }
-  
-  .modal h2 {
-    text-align: center;
-  }
-  
-  .modal .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
-    color: #aaa;
-    cursor: pointer;
-  }
-  
-  .modal .close:hover {
-    color: black;
-  }
-  
-  .modal form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .modal label {
-    margin: 10px 0 5px;
-  }
-  
-  .modal input,
-  .modal select {
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .modal-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .modal-buttons button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .modal-buttons button[type="button"] {
-    background-color: #dc3545;
-  }
-  
-  .modal-buttons button:hover {
-    background-color: #0056b3;
-  }
-  /* Color Styling for the promocode's code column */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.add-promocode-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+}
+
+.modal h2 {
+  text-align: center;
+}
+
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.modal .close:hover {
+  color: black;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal label {
+  margin: 10px 0 5px;
+}
+
+.modal input,
+.modal select {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-buttons button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-buttons button[type="button"] {
+  background-color: #dc3545;
+}
+
+.modal-buttons button:hover {
+  background-color: #0056b3;
+}
+
+/* Color Styling for the promocode's code column */
 .code-cell {
-    font-weight: bold;
-    color: purple; /* Color for the code field */
-  }
-  .success-message {
-    background-color: #28a745;
-    color: white;
-    padding: 10px;
-    margin-bottom: 15px;
-    text-align: center;
-    border-radius: 5px;
-  }
-  
+  font-weight: bold;
+  color: purple; /* Color for the code field */
+}
+
+.success-message {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  border-radius: 5px;
+}
