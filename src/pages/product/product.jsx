@@ -19,6 +19,10 @@ const Products = () => {
   const [message, setMessage] = useState('');
   const [priceFilter, setPriceFilter] = useState(0);
 
+  // Pagination States
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   // Fetch products and categories
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,11 +41,7 @@ const Products = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('https://ecommerce-backend-eight-umber.vercel.app/user/get-category');
-        console.log('API Response:', response); // Log the entire response
-    
         if (response.data.message === 'Categories fetched successfully.') {
-          // Check if data exists and is an array
-          console.log('Fetched Categories:', response.data.data);
           setCategories(response.data.data);
         } else {
           console.log('Error: Categories not fetched');
@@ -50,7 +50,7 @@ const Products = () => {
         console.error('Error fetching categories:', error);
       }
     };
-    
+
     fetchProducts();
     fetchCategories();
   }, []);
@@ -122,8 +122,6 @@ const Products = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         const url = `https://ecommerce-backend-eight-umber.vercel.app/user/delete-product?id=${id}`;
-        console.log('API URL:', url); // Debug the URL
-  
         const response = await axios.delete(url);
   
         if (response.data.message === 'Product deleted successfully') {
@@ -140,6 +138,17 @@ const Products = () => {
   
   // Filter products by price
   const filteredProducts = products.filter((product) => product.price >= priceFilter);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   // Render product table
   const renderProductTable = () => (
@@ -171,7 +180,7 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredProducts.map((product) => (
+          {currentProducts.map((product) => (
             <tr key={product._id}>
               <td>
                 {product.image ? (
@@ -188,7 +197,6 @@ const Products = () => {
                   : product.description}
               </td>
               <td>{product.categoryId?.name || 'Unknown'}</td>
-
               <td>{product.stock}</td>
               <td>
                 <button
@@ -216,8 +224,26 @@ const Products = () => {
           ))}
         </tbody>
       </table>
+
+      <div className="pagination-container">
+      <div className="pagination">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          Previous
+        </button>
+        <span>{`Page ${currentPage}`}</span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
-  );
+  </div>
+);
 
   // Render form
   const renderForm = () => (

@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 h1 {
@@ -26,7 +26,7 @@ button {
   padding: 12px 20px;
   border: none;
   border-radius: 8px;
- 
+
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
@@ -156,7 +156,7 @@ textarea {
 }
 
 .submit-button {
-  background-color: #4CAF50; /* Green background for update button */
+  background-color: #4caf50; /* Green background for update button */
   color: white; /* White text */
   border: none;
   padding: 10px 20px;
@@ -199,7 +199,7 @@ textarea {
   object-fit: cover;
 }
 .submit-button {
-  background-color: #4CAF50; /* Green background for submit */
+  background-color: #4caf50; /* Green background for submit */
   color: white; /* White text */
   border: none;
   padding: 10px 20px;
@@ -226,4 +226,29 @@ textarea {
 
 .cancel-button:hover {
   background-color: #e53935; /* Darker red when hovering */
+}
+.pagination-container {
+  display: flex;
+  justify-content: flex-end; /* Align pagination to the right */
+  margin-top: 20px;
+}
+/* Removed duplicate .pagination-container definition */
+.pagination {
+  display: flex;
+  align-items: center;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination span {
+  margin: 0 10px;
 }
