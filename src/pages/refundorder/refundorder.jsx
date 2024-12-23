@@ -93,6 +93,12 @@ const RefundOrderList = () => {
     },
   ]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  // Calculate total pages
+  const totalPages = Math.ceil(refundOrders.length / itemsPerPage);
+
   // Handle refund action
   const handleRefund = (id) => {
     setRefundOrders(
@@ -101,6 +107,11 @@ const RefundOrderList = () => {
       )
     );
   };
+
+  // Get current items for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = refundOrders.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="refund-order-container">
@@ -118,8 +129,8 @@ const RefundOrderList = () => {
           </tr>
         </thead>
         <tbody>
-          {refundOrders.length > 0 ? (
-            refundOrders.map((order) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((order) => (
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.orderNo}</td>
@@ -158,6 +169,23 @@ const RefundOrderList = () => {
           )}
         </tbody>
       </table>
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

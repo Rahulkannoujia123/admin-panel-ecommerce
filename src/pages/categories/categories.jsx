@@ -15,6 +15,8 @@ const Categories = () => {
     metaDescription: "",
     image: null,
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   useEffect(() => {
     // Fetch categories from the API when the component mounts
@@ -34,6 +36,8 @@ const Categories = () => {
 
     fetchCategories();
   }, []);
+
+  const totalPages = Math.ceil(categories.length / itemsPerPage);
 
   const handleAddOrEditCategory = async () => {
     if (formData.categoryName.trim() === "") {
@@ -172,11 +176,7 @@ const Categories = () => {
         <thead>
           <tr>
             <th>
-              <input
-                type="checkbox"
-                checked={selectAll}
-                onChange={handleSelectAll}
-              />
+              <input type="checkbox" checked={selectAll} onChange={handleSelectAll} />
             </th>
             <th>Sr. No</th>
             <th>Name</th>
@@ -185,38 +185,56 @@ const Categories = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((category, index) => (
-            <tr key={category._id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.includes(category._id)}
-                  onChange={() => handleCategorySelect(category._id)}
-                />
-              </td>
-              <td>{index + 1}</td>
-              <td>{category.name}</td>
-              <td>
-                <img src={category.image} alt={category.name} width={50} height={50} />
-              </td>
-              <td>
-                <button
-                  onClick={() => handleEditCategory(category)}
-                  className="edit-category-button"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteCategory(category._id)}
-                  className="delete-category-button"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+          {categories
+            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            .map((category, index) => (
+              <tr key={category._id}>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.includes(category._id)}
+                    onChange={() => handleCategorySelect(category._id)}
+                  />
+                </td>
+                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                <td>{category.name}</td>
+                <td>
+                  <img src={category.image} alt={category.name} width={50} height={50} />
+                </td>
+                <td>
+                  <button
+                    onClick={() => handleEditCategory(category)}
+                    className="edit-category-button"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteCategory(category._id)}
+                    className="delete-category-button"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
+
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
 
       {isPopupOpen && (
         <div className="popup-overlay">
@@ -235,11 +253,7 @@ const Categories = () => {
 
               <label>
                 Select Image:
-                <input
-                  type="file"
-                  name="image"
-                  onChange={handleImageChange}
-                />
+                <input type="file" name="image" onChange={handleImageChange} />
               </label>
               <div className="form-buttons">
                 <button

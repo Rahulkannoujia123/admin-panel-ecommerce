@@ -23,6 +23,11 @@ const PromocodeList = () => {
     endDate: "",
   });
   const [successMessage, setSuccessMessage] = useState("");
+  
+    const [currentPage, setCurrentPage] = useState(1);
+        const [itemsPerPage] = useState(5);
+    const totalPages = Math.ceil(PromocodeList.length / itemsPerPage);
+
 
   useEffect(() => {
     // Fetch promocodes from API on component mount
@@ -241,6 +246,21 @@ const PromocodeList = () => {
           )}
         </tbody>
       </table>
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
 
       {/* Add Promocode Modal */}
       {isAddModalOpen && (

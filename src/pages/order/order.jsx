@@ -16,6 +16,9 @@ const OrderList = () => {
   ]);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1); // Start on page 1
+  const [itemsPerPage] = useState(10); // Set to 10 items per page
+  const totalPages = Math.ceil(orders.length / itemsPerPage); // Calculate total pages based on 10 items per page
 
   // Handle delete action
   const handleDelete = (id) => {
@@ -29,6 +32,11 @@ const OrderList = () => {
     order.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.status.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Pagination: Get the orders to show on the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="order-container">
@@ -58,8 +66,8 @@ const OrderList = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredOrders.length > 0 ? (
-            filteredOrders.map((order) => (
+          {currentOrders.length > 0 ? (
+            currentOrders.map((order) => (
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.orderNo}</td>
@@ -100,6 +108,22 @@ const OrderList = () => {
           )}
         </tbody>
       </table>
+
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
