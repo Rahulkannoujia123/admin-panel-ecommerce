@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import {  useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import * as Icons from 'react-icons/tb';
 import { useDispatch } from 'react-redux';
 import Logo from "../../images/common/logo-dark.svg";

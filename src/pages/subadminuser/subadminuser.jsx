@@ -1,71 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./subadminuser.css";
 
 const Subadmin = () => {
   // State for Users Table
-  const [users, setUsers] = useState([
-    { id: 1, name: "sanu", username: "sanu kumar", role: "Admin", password: "1234" },
-    { id: 2, name: "rohit", username: "rohit singh", role: "Editor", password: "5678" },
-    { id: 3, name: "ankit", username: "ankit sharma", role: "Viewer", password: "91011" },
-  ]);
-
-  // State for Modal Popup
+  const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newUser, setNewUser] = useState({ name: "", username: "", role: "", password: "" });
   const [editingUserId, setEditingUserId] = useState(null);
+  const [loading, setLoading] = useState(false); // To show a loader during API requests
+  const [successMessage, setSuccessMessage] = useState(""); // To store success message with timestamp
 
-  // State for Select All Checkbox
-  const [selectAll, setSelectAll] = useState(false);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  // API endpoints
+  const getUsersEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/get-admin-user";
+  const addUserEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/add-user";
+  const updateUserEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/update-user";
+  const deleteUserEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/delete-admin-user"; // Delete user endpoint
 
-  // Handle Select All Checkbox
-  const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    if (!selectAll) {
-      setSelectedUsers(users.map((user) => user.id));
-    } else {
-      setSelectedUsers([]);
-    }
-  };
+  // Fetch users on component mount
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(getUsersEndpoint);
+        console.log("Users fetched successfully:", response.data);
+        setUsers(response.data.users); // Set users data from the API response
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        alert("Failed to fetch users. Please try again.");
+      }
+    };
 
-  // Handle Single Row Checkbox
-  const handleCheckboxChange = (id) => {
-    if (selectedUsers.includes(id)) {
-      setSelectedUsers(selectedUsers.filter((userId) => userId !== id));
-    } else {
-      setSelectedUsers([...selectedUsers, id]);
-    }
-  };
+    fetchUsers();
+  }, []);
 
-  // Handle Add User Form Submit
-  const handleSubmit = (e) => {
+  // Handle Add/Edit User Form Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (newUser.name && newUser.username && newUser.role && newUser.password) {
-      if (editingUserId) {
-        // Update existing user
-        const updatedUsers = users.map((user) =>
-          user.id === editingUserId
-            ? { ...user, ...newUser }
-            : user
+      try {
+        setLoading(true); // Show loader
+
+        let response;
+        if (editingUserId) {
+          // Update existing user with userId as query parameter
+          response = await axios.post(
+            `${updateUserEndpoint}?userId=${editingUserId}`,
+            newUser
+          );
+        } else {
+          // Add new user
+          response = await axios.post(addUserEndpoint, newUser);
+        }
+
+        const updatedUser = response.data.user;
+
+        if (editingUserId) {
+          // Update user in the users state if it's an edit
+          const updatedUsers = users.map((user) =>
+            user._id === editingUserId ? { ...updatedUser } : user
+          );
+          setUsers(updatedUsers);
+        } else {
+          // Add the new user to the state if it's an add
+          setUsers([...users, updatedUser]);
+        }
+
+        // Reset form and modal
+        setNewUser({ name: "", username: "", role: "", password: "" });
+        setShowModal(false);
+        setEditingUserId(null);
+
+        // Set success message with timestamp
+        const timestamp = new Date().toLocaleString();
+        setSuccessMessage(
+          editingUserId
+            ? `User successfully updated on ${timestamp}`
+            : `User successfully added on ${timestamp}`
         );
-        setUsers(updatedUsers);
-      } else {
-        // Add new user
-        const updatedUsers = [
-          ...users,
-          {
-            id: users.length + 1,
-            name: newUser.name,
-            username: newUser.username,
-            role: newUser.role,
-            password: newUser.password,
-          },
-        ];
-        setUsers(updatedUsers);
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 5000);
+      } catch (error) {
+        console.error("Error saving user:", error);
+        alert("Failed to save user. Please try again.");
+      } finally {
+        setLoading(false); // Hide loader
       }
-      setNewUser({ name: "", username: "", role: "", password: "" });
-      setShowModal(false);
-      setEditingUserId(null);
     }
   };
 
@@ -77,8 +99,29 @@ const Subadmin = () => {
       role: user.role,
       password: user.password,
     });
-    setEditingUserId(user.id);
+    setEditingUserId(user._id);
     setShowModal(true);
+  };
+
+  // Handle Delete Button Click
+  const handleDeleteClick = async (userId) => {
+    try {
+      const response = await axios.delete(`${deleteUserEndpoint}?userId=${userId}`);
+      console.log(response.data.message); // Log success message from response
+      // Remove the deleted user from the state
+      setUsers(users.filter(user => user._id !== userId));
+      // Set success message for deletion
+      const timestamp = new Date().toLocaleString();
+      setSuccessMessage(`User successfully deleted on ${timestamp}`);
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Failed to delete user. Please try again.");
+    }
   };
 
   return (
@@ -89,17 +132,17 @@ const Subadmin = () => {
         <button onClick={() => setShowModal(true)}>Add User</button>
       </div>
 
+      {/* Success Message */}
+      {successMessage && (
+        <div className="success-message">
+          {successMessage}
+        </div>
+      )}
+
       {/* Table Section */}
       <table>
         <thead>
           <tr>
-            <th>
-              <input
-                type="checkbox"
-                checked={selectAll}
-                onChange={handleSelectAll}
-              />
-            </th>
             <th>Sr. No.</th>
             <th>Name</th>
             <th>Username</th>
@@ -109,14 +152,7 @@ const Subadmin = () => {
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr key={user.id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedUsers.includes(user.id)}
-                  onChange={() => handleCheckboxChange(user.id)}
-                />
-              </td>
+            <tr key={user._id}>
               <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.username}</td>
@@ -125,7 +161,9 @@ const Subadmin = () => {
                 <button className="edit-btn" onClick={() => handleEditClick(user)}>
                   Edit
                 </button>
-                <button className="delete-btn">Delete</button>
+                <button className="delete-btn" onClick={() => handleDeleteClick(user._id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
@@ -176,7 +214,7 @@ const Subadmin = () => {
 
               <label>Password:</label>
               <input
-                type="text"
+                type="password"
                 value={newUser.password}
                 onChange={(e) =>
                   setNewUser({ ...newUser, password: e.target.value })
@@ -185,8 +223,8 @@ const Subadmin = () => {
                 required
               />
 
-              <button type="submit" className="submit-btn">
-                {editingUserId ? "Update User" : "Add User"}
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? "Saving..." : editingUserId ? "Update User" : "Add User"}
               </button>
             </form>
           </div>
