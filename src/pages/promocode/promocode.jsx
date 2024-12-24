@@ -24,10 +24,9 @@ const PromocodeList = () => {
   });
   const [successMessage, setSuccessMessage] = useState("");
   
-    const [currentPage, setCurrentPage] = useState(1);
-        const [itemsPerPage] = useState(5);
-    const totalPages = Math.ceil(PromocodeList.length / itemsPerPage);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const totalPages = Math.ceil(promocodes.length / itemsPerPage);
 
   useEffect(() => {
     // Fetch promocodes from API on component mount
@@ -71,6 +70,23 @@ const PromocodeList = () => {
     }
   };
 
+  const handleDeleteMultiple = async () => {
+    try {
+      console.log("Deleting selected promocodes:", selectedPromocodes);
+      await axios.delete("https://ecommerce-backend-eight-umber.vercel.app/user/delete-multiple-promocode", {
+        data: { ids: selectedPromocodes },
+      });
+      setPromocodes(promocodes.filter((promo) => !selectedPromocodes.includes(promo._id)));
+      setSelectedPromocodes([]);
+      setSuccessMessage("Selected promocodes deleted successfully!");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    } catch (error) {
+      console.error("Error deleting multiple promocodes:", error);
+    }
+  };
+
   const handleEdit = (id) => {
     const promoToEdit = promocodes.find((promo) => promo._id === id);
     setEditPromocode(promoToEdit);
@@ -97,7 +113,6 @@ const PromocodeList = () => {
     });
   };
 
-  // New handleEditPromocode function for handling edit promocode form submission
   const handleEditPromocode = async (e) => {
     e.preventDefault();
   
@@ -110,35 +125,26 @@ const PromocodeList = () => {
         end: editPromocode.endDate,
       },
     };
-  
+
     try {
-      // Assuming 'id' is already part of the URL or passed as a prop
-      const response = await fetch(
-        `https://ecommerce-backend-eight-umber.vercel.app/user/update-promocode?id=${editPromocode._id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedPromocode),
-        }
+      const response = await axios.put(
+        `https://ecommerce-backend-eight-umber.vercel.app/user/update-promocode/${editPromocode._id}`,
+        updatedPromocode
       );
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        // Assuming you handle success in your app here
-        alert(data.message); // Display success message
-        // Optionally, update your state to reflect the changes
+
+      if (response.status === 200) {
         setPromocodes((prev) =>
           prev.map((promocode) =>
-            promocode._id === editPromocode._id ? data.updatedPromocode : promocode
+            promocode._id === editPromocode._id ? response.data : promocode
           )
         );
-        handleModalClose(); // Close the modal after successful update
+        setSuccessMessage("Promocode updated successfully!");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+        handleModalClose();
       } else {
-        // Handle error responses
-        alert("Error updating promocode: " + data.message);
+        alert("Error updating promocode: " + response.data.message);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -183,6 +189,9 @@ const PromocodeList = () => {
       {successMessage && <div className="success-message">{successMessage}</div>}
       <button className="add-promocode-btn" onClick={() => setIsAddModalOpen(true)}>
         Add Promocode
+      </button>
+      <button className="delete-multiple-btn" onClick={handleDeleteMultiple} disabled={selectedPromocodes.length === 0}>
+        Delete Selected
       </button>
       <table className="promocode-table">
         <thead>

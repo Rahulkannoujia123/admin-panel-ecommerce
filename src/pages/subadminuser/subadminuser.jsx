@@ -9,13 +9,15 @@ const Subadmin = () => {
   const [newUser, setNewUser] = useState({ name: "", username: "", role: "", password: "" });
   const [editingUserId, setEditingUserId] = useState(null);
   const [loading, setLoading] = useState(false); // To show a loader during API requests
-  const [successMessage, setSuccessMessage] = useState(""); // To store success message with timestamp
+  const [successMessage, setSuccessMessage] = useState("");
+  const [selectedUsers, setSelectedUsers] = useState([]); // To store success message with timestamp
 
   // API endpoints
   const getUsersEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/get-admin-user";
   const addUserEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/add-user";
   const updateUserEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/update-user";
-  const deleteUserEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/delete-admin-user"; // Delete user endpoint
+  const deleteUserEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/delete-admin-user"; 
+  const deleteMultipleUsersEndpoint = "https://ecommerce-backend-eight-umber.vercel.app/user/delete-multiple-user"; // Delete user endpoint
 
   // Fetch users on component mount
   useEffect(() => {
@@ -123,13 +125,50 @@ const Subadmin = () => {
       alert("Failed to delete user. Please try again.");
     }
   };
+  // Handle Select All Checkbox Change
+  const handleSelectAllChange = (e) => {
+    if (e.target.checked) {
+      const allUserIds = users.map((user) => user._id);
+      setSelectedUsers(allUserIds);
+    } else {
+      setSelectedUsers([]);
+    }
+  };
 
+  // Handle Individual Checkbox Change
+  const handleCheckboxChange = (userId) => {
+    if (selectedUsers.includes(userId)) {
+      setSelectedUsers(selectedUsers.filter((id) => id !== userId));
+    } else {
+      setSelectedUsers([...selectedUsers, userId]);
+    }
+  };
+
+  // Handle Delete Selected Users
+  const handleDeleteMultipleClick = async () => {
+    if (selectedUsers.length === 0) {
+      alert("Please select users to delete.");
+      return;
+    }
+    try {
+      await axios.delete(deleteMultipleUsersEndpoint, { data: { userIds: selectedUsers } });
+      setUsers(users.filter((user) => !selectedUsers.includes(user._id)));
+      const timestamp = new Date().toLocaleString();
+      setSuccessMessage(`Selected users successfully deleted on ${timestamp}`);
+      setSelectedUsers([]); // Clear the selection
+      setTimeout(() => setSuccessMessage(""), 5000);
+    } catch (error) {
+      console.error("Error deleting users:", error);
+      alert("Failed to delete selected users. Please try again.");
+    }
+  };
   return (
     <div className="container">
       {/* Header Section */}
       <div className="header">
         <h1>Subadmin User List</h1>
         <button onClick={() => setShowModal(true)}>Add User</button>
+        <button onClick={handleDeleteMultipleClick}>Delete Selected Users</button>
       </div>
 
       {/* Success Message */}
@@ -143,6 +182,12 @@ const Subadmin = () => {
       <table>
         <thead>
           <tr>
+            <th>
+              <input
+                type="checkbox"
+                onChange={handleSelectAllChange}
+              />
+            </th>
             <th>Sr. No.</th>
             <th>Name</th>
             <th>Username</th>
@@ -153,6 +198,13 @@ const Subadmin = () => {
         <tbody>
           {users.map((user, index) => (
             <tr key={user._id}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={selectedUsers.includes(user._id)}
+                  onChange={() => handleCheckboxChange(user._id)}
+                />
+              </td>
               <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.username}</td>
