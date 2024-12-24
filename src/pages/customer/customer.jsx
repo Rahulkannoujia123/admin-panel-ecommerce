@@ -129,6 +129,34 @@ const Customers = () => {
       }
     }
   };
+  const handleDeleteSelected = async () => {
+    if (window.confirm('Are you sure you want to delete the selected customers?')) {
+      try {
+        const response = await fetch(
+          'https://ecommerce-backend-eight-umber.vercel.app/user/delete-multiple-user',
+          {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userIds: selectedCustomers }),
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.message);
+          setCustomers(customers.filter((customer) => !selectedCustomers.includes(customer._id)));
+          setFilteredCustomers(filteredCustomers.filter((customer) => !selectedCustomers.includes(customer._id)));
+          setSelectedCustomers([]);
+        } else {
+          const errorData = await response.json();
+          alert(`Failed to delete customers: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Error deleting customers:', error);
+        alert('Error deleting customers.');
+      }
+    }
+  };
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -189,6 +217,9 @@ const Customers = () => {
               <button onClick={handleSearch} className="search-button">
                 Search
               </button>
+              <button onClick={handleDeleteSelected} className="delete-multiple-button">
+                Delete Selected
+              </button>
             </div>
           </div>
           <table className="customers-table">
@@ -248,7 +279,7 @@ const Customers = () => {
           </table>
         </div>
       )}
- <div className="pagination">
+      <div className="pagination">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}

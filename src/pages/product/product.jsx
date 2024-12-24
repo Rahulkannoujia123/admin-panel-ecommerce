@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './product.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./product.css";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [formMode, setFormMode] = useState(''); // 'add', 'edit', or ''
+  const [formMode, setFormMode] = useState(""); // 'add', 'edit', or ''
   const [editingProduct, setEditingProduct] = useState(null);
   const [formValues, setFormValues] = useState({
-    name: '',
-    description: '',
-    price: '',
-    categoryId: '',
+    name: "",
+    description: "",
+    price: "",
+    categoryId: "",
     stock: 0,
     image: null,
   });
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [priceFilter, setPriceFilter] = useState(0);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   // Pagination States
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,27 +28,31 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://ecommerce-backend-eight-umber.vercel.app/user/get-product');
-        if (response.data.message === 'Products retrieved successfully') {
+        const response = await axios.get(
+          "https://ecommerce-backend-eight-umber.vercel.app/user/get-product"
+        );
+        if (response.data.message === "Products retrieved successfully") {
           setProducts(response.data.products);
         } else {
-          console.error('Error fetching products:', response.data.message);
+          console.error("Error fetching products:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       }
     };
 
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('https://ecommerce-backend-eight-umber.vercel.app/user/get-category');
-        if (response.data.message === 'Categories fetched successfully.') {
+        const response = await axios.get(
+          "https://ecommerce-backend-eight-umber.vercel.app/user/get-category"
+        );
+        if (response.data.message === "Categories fetched successfully.") {
           setCategories(response.data.data);
         } else {
-          console.log('Error: Categories not fetched');
+          console.log("Error: Categories not fetched");
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       }
     };
 
@@ -78,39 +83,46 @@ const Products = () => {
 
     try {
       let response;
-      if (formMode === 'add') {
-        response = await axios.post('https://ecommerce-backend-eight-umber.vercel.app/user/add-product', formData);
-      } else if (formMode === 'edit') {
+      if (formMode === "add") {
+        response = await axios.post(
+          "https://ecommerce-backend-eight-umber.vercel.app/user/add-product",
+          formData
+        );
+      } else if (formMode === "edit") {
         response = await axios.post(
           `https://ecommerce-backend-eight-umber.vercel.app/user/update-product?id=${editingProduct._id}`,
           formData
         );
       }
 
-      if (response.data.message.includes('successfully')) {
-        if (formMode === 'add') {
+      if (response.data.message.includes("successfully")) {
+        if (formMode === "add") {
           setProducts((prev) => [...prev, response.data.product]);
         } else {
           setProducts((prev) =>
-            prev.map((product) => (product._id === editingProduct._id ? response.data.product : product))
+            prev.map((product) =>
+              product._id === editingProduct._id
+                ? response.data.product
+                : product
+            )
           );
         }
         setMessage(response.data.message);
       } else {
-        setMessage(response.data.message || 'Operation failed!');
+        setMessage(response.data.message || "Operation failed!");
       }
     } catch (error) {
-      console.error('Error:', error);
-      setMessage('An error occurred.');
+      console.error("Error:", error);
+      setMessage("An error occurred.");
     }
 
     setLoading(false);
-    setFormMode('');
+    setFormMode("");
     setFormValues({
-      name: '',
-      description: '',
-      price: '',
-      categoryId: '',
+      name: "",
+      description: "",
+      price: "",
+      categoryId: "",
       stock: 0,
       image: null,
     });
@@ -118,32 +130,79 @@ const Products = () => {
   };
 
   // Handle delete
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
+  const handleDeleteMultiple = async () => {
+    if (selectedProducts.length === 0) {
+      alert("No products selected.");
+      return;
+    }
+
+    if (
+      window.confirm("Are you sure you want to delete the selected products?")
+    ) {
       try {
-        const url = `https://ecommerce-backend-eight-umber.vercel.app/user/delete-product?id=${id}`;
-        const response = await axios.delete(url);
-  
-        if (response.data.message === 'Product deleted successfully') {
-          setProducts((prev) => prev.filter((product) => product._id !== id));
+        const response = await axios.delete(
+          "https://ecommerce-backend-eight-umber.vercel.app/user/delete-multiple-product",
+          { data: { productIds: selectedProducts } }
+        );
+        if (response.data.message === "Products deleted successfully") {
+          setProducts((prev) =>
+            prev.filter((product) => !selectedProducts.includes(product._id))
+          );
+          setSelectedProducts([]);
           setMessage(response.data.message);
         } else {
-          setMessage('Failed to delete product.');
+          setMessage("Failed to delete selected products.");
         }
       } catch (error) {
-        console.error('Error deleting product:', error.response || error.message);
+        console.error("Error deleting multiple products:", error);
       }
     }
   };
-  
+
+  // Handle checkbox toggle
+  const toggleSelectProduct = (id) => {
+    setSelectedProducts((prev) =>
+      prev.includes(id)
+        ? prev.filter((productId) => productId !== id)
+        : [...prev, id]
+    );
+  };
+  // Add a checkbox to each product row for selection
+  // Add a checkbox to each product row for selection
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        const url = `https://ecommerce-backend-eight-umber.vercel.app/user/delete-product?id=${id}`;
+        const response = await axios.delete(url);
+
+        if (response.data.message === "Product deleted successfully") {
+          setProducts((prev) => prev.filter((product) => product._id !== id));
+          setMessage(response.data.message);
+        } else {
+          setMessage("Failed to delete product.");
+        }
+      } catch (error) {
+        console.error(
+          "Error deleting product:",
+          error.response || error.message
+        );
+      }
+    }
+  };
+
   // Filter products by price
-  const filteredProducts = products.filter((product) => product.price >= priceFilter);
+  const filteredProducts = products.filter(
+    (product) => product.price >= priceFilter
+  );
 
   // Pagination Logic
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
@@ -153,8 +212,11 @@ const Products = () => {
   // Render product table
   const renderProductTable = () => (
     <div>
-      <button className="add-product-button" onClick={() => setFormMode('add')}>
+      <button className="add-product-button" onClick={() => setFormMode("add")}>
         Add Product
+      </button>
+      <button className="delete-multiple-button" onClick={handleDeleteMultiple}>
+        Delete Selected Products
       </button>
 
       <div className="price-filter">
@@ -170,6 +232,7 @@ const Products = () => {
       <table className="product-list">
         <thead>
           <tr>
+            <th>Select</th>
             <th>Image</th>
             <th>Name</th>
             <th>Price</th>
@@ -183,10 +246,21 @@ const Products = () => {
           {currentProducts.map((product) => (
             <tr key={product._id}>
               <td>
+                <input
+                  type="checkbox"
+                  checked={selectedProducts.includes(product._id)}
+                  onChange={() => toggleSelectProduct(product._id)}
+                />
+              </td>
+              <td>
                 {product.image ? (
-                  <img src={product.image} alt={product.name} className="product-image" />
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="product-image"
+                  />
                 ) : (
-                  'No Image'
+                  "No Image"
                 )}
               </td>
               <td>{product.name}</td>
@@ -196,18 +270,22 @@ const Products = () => {
                   ? `${product.description.substring(0, 100)}...`
                   : product.description}
               </td>
-              <td>{product.categoryId?.name }</td>
+              <td>
+                {product.categoryId ? product.categoryId.name : "No Category"}
+              </td>
               <td>{product.stock}</td>
               <td>
                 <button
                   onClick={() => {
-                    setFormMode('edit');
+                    setFormMode("edit");
                     setEditingProduct(product);
                     setFormValues({
                       name: product.name,
                       description: product.description,
                       price: product.price,
-                      categoryId: product.categoryId._id || '',
+                      categoryId: product.categoryId
+                        ? product.categoryId._id
+                        : "",
                       stock: product.stock,
                       image: null,
                     });
@@ -216,7 +294,10 @@ const Products = () => {
                 >
                   Edit
                 </button>
-                <button onClick={() => handleDelete(product._id)} className="delete-button">
+                <button
+                  onClick={() => handleDelete(product._id)}
+                  className="delete-button"
+                >
                   Delete
                 </button>
               </td>
@@ -226,29 +307,29 @@ const Products = () => {
       </table>
 
       <div className="pagination-container">
-      <div className="pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-        >
-          Previous
-        </button>
-        <span>{`Page ${currentPage}`}</span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          Next
-        </button>
+        <div className="pagination">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            Previous
+          </button>
+          <span>{`Page ${currentPage}`}</span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 
   // Render form
   const renderForm = () => (
     <form onSubmit={handleSubmit} className="add-product-form">
-      <h2>{formMode === 'add' ? 'Add Product' : 'Edit Product'}</h2>
+      <h2>{formMode === "add" ? "Add Product" : "Edit Product"}</h2>
       <div className="form-group">
         <label htmlFor="name">Product Name</label>
         <input
@@ -311,20 +392,25 @@ const Products = () => {
       </div>
       <div className="form-group">
         <label htmlFor="image">Product Image</label>
-        <input type="file" id="image" name="image" onChange={handleFileChange} />
+        <input
+          type="file"
+          id="image"
+          name="image"
+          onChange={handleFileChange}
+        />
       </div>
       <button type="submit" disabled={loading}>
-        {loading ? 'Saving...' : formMode === 'add' ? 'Add Product' : 'Update Product'}
+        {loading
+          ? "Saving..."
+          : formMode === "add"
+          ? "Add Product"
+          : "Update Product"}
       </button>
       {message && <p className="message">{message}</p>}
     </form>
   );
 
-  return (
-    <div>
-      {formMode ? renderForm() : renderProductTable()}
-    </div>
-  );
+  return <div>{formMode ? renderForm() : renderProductTable()}</div>;
 };
 
 export default Products;
