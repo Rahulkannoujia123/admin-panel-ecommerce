@@ -196,7 +196,7 @@ const Products = () => {
                   ? `${product.description.substring(0, 100)}...`
                   : product.description}
               </td>
-              <td>{product.categoryId?.name || 'Unknown'}</td>
+              <td>{product.categoryId?.name }</td>
               <td>{product.stock}</td>
               <td>
                 <button
