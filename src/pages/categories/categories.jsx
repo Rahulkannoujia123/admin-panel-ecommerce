@@ -109,7 +109,13 @@ const Categories = () => {
         const response = await axios.delete(
           `https://ecommerce-backend-eight-umber.vercel.app/user/delete-category?id=${categoryId}`
         );
-
+        if (response.data.message === "Category deleted successfully") {
+          alert("Category deleted successfully.");
+          // Update the categories state by removing the deleted category
+          setCategories(categories.filter((cat) => cat._id !== categoryId));
+        } else {
+          alert(response.data.message || "Failed to delete category.");
+        }
         if (response.data.message === "Category deleted successfully") {
           alert("Category deleted successfully.");
           // Update the categories state by removing the deleted category
@@ -134,6 +140,29 @@ const Categories = () => {
       image: null,
     });
     setIsPopupOpen(true);
+  };
+
+  const handleDeleteSelectedCategories = async () => {
+    if (window.confirm("Are you sure you want to delete the selected categories?")) {
+      try {
+        const response = await axios.delete(
+          "https://ecommerce-backend-eight-umber.vercel.app/user/delete-multiple-category",
+          { data: { ids: selectedCategories } }
+        );
+        console.log("Delete response:", response);
+        if (response.data.message === "Categories deleted successfully") {
+          alert("Categories deleted successfully.");
+          setCategories(categories.filter((cat) => !selectedCategories.includes(cat._id)));
+          setSelectedCategories([]);
+          setSelectAll(false);
+        } else {
+          alert(response.data.message || "Failed to delete categories.");
+        }
+      } catch (error) {
+        console.error("Error deleting categories:", error);
+        alert("An error occurred while deleting the categories. Please try again.");
+      }
+    }
   };
 
   const handleSelectAll = () => {
@@ -170,6 +199,13 @@ const Categories = () => {
         className="open-popup-button"
       >
         Add Category
+      </button>
+
+      <button
+        onClick={handleDeleteSelectedCategories}
+        className="delete-selected-button"
+      >
+        Delete Selected Categories
       </button>
 
       <table className="categories-table">
