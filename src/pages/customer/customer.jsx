@@ -214,12 +214,16 @@ const Customers = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
               />
+              <div/>
               <button onClick={handleSearch} className="search-button">
                 Search
               </button>
+             
+              <div>
               <button onClick={handleDeleteSelected} className="delete-multiple-button">
                 Delete Selected
               </button>
+              </div>
             </div>
           </div>
           <table className="customers-table">

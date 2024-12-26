@@ -126,14 +126,89 @@
 .update-form button[type="button"]:hover {
   background-color: #e53935;
 }
+
+/* Button Container Styles */
+.button-container {
+  display: flex; /* Use flexbox to align buttons */
+  align-items: center; /* Vertically align buttons */
+  justify-content: space-between; /* Place buttons on opposite ends */
+  margin-bottom: 20px; /* Add spacing below buttons */
+}
+.search-bar {
+  padding: 5px;
+  width: 100%;
+ 
+}
+ 
+.search-button {
+  background-color: #007bff; /* Blue background for search button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 40%;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Button Container Styles */
+.button-container {
+  display: flex; /* Use flexbox to align buttons */
+  align-items: center; /* Vertically align buttons */
+  justify-content: space-between; /* Place buttons on opposite ends */
+  margin-bottom: 20px; /* Add spacing below buttons */
+  gap: 10px; /* Add space between buttons if needed */
+}
+
+/* Search Button Styles */
+.search-button {
+  background-color: #007bff; /* Blue background for search button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 15% !important;
+ 
+}
+.search-input {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  width: 70%;
+}
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Delete Multiple Button Styles */
 .delete-multiple-button {
   background-color: #dc3545; /* Red background for delete button */
   color: white; /* White text */
   border: none;
+  display: flex;
   padding: 10px 20px;
-  cursor: pointer;
   font-size: 16px;
+  cursor: pointer;
   border-radius: 5px;
-  margin-right: auto; /* Push the button to the far right */
+  top:100px;
   transition: background-color 0.3s ease;
+  margin-left: auto; 
+  width: 15%;
+  
 }
+.button.delete-multiple-button{
+  margin-left: 0;
+}
+
+.delete-multiple-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
